@@ -1,0 +1,33 @@
+<!--
+	Created with ruby mirc tools
+	mkohli@iu.edu
+
+	This is the template for the user specification file in RSNA's MIRC
+	teaching file software.
+	
+-->
+
+<users mode="digest">
+	<user
+        password="224587273933662737450362931575084676949"
+        username="admin">
+        <role>author</role>
+        <role>admin</role>
+        <role>department</role>
+        <role>publisher</role>
+    </user>
+    <user
+        password="126680608771750945340162210354335764377"
+        username="king">
+        <role>admin</role>
+        <role>shutdown</role>
+    </user>
+	<% @people.each do |person| %>
+    <user
+        password="<%= person.hashed_password%>"  
+        username="<%= person.username %>">
+        <% person.roles.each do |r| %><role><%= r %></role>
+        <% end %>
+    </user>
+    <% end %>
+</users>
