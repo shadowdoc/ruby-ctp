@@ -5,19 +5,20 @@ RSNA CTP File Storage template
 
 Ruby Variables: 
 name - this is the root of the pipeline name
-root - local directory where the files are to be written
-port - if a port is specified, the CTP server will 
+file_service_root - local directory where the files are to be written
+
+file_service_web_port - if a port is specified, the CTP server will 
 
 Full CTP documentation
 http://mircwiki.rsna.org/index.php?title=CTP-The_RSNA_Clinical_Trial_Processor#Storage_Services
 
 -->
 
-      <FileStorageService
-            name="<%= name %>-FileStorageService"
-            id="<%= name %>-pipelineid"
+        <FileStorageService
+            name="<%= name %> File Storage Service"
             class="org.rsna.ctp.stdstages.FileStorageService"
-            root="<%= root %>" 
+            root="<%= file_service_root %>" 
+            quarantine="quarantines/<%=name%>DicomAnon/FileStorageService"
             type="month"
             timeDepth="0"
             acceptDuplicateUIDs="yes"
@@ -25,19 +26,17 @@ http://mircwiki.rsna.org/index.php?title=CTP-The_RSNA_Clinical_Trial_Processor#S
             acceptXmlObjects="yes"
             acceptZipObjects="yes"
             acceptFileObjects="yes" 
-            returnStoredFile="yes"
+            returnStoredFile="no"
             setWorldReadable="no"
             setWorldWritable="no"
-            fsNameTag="00097770"
-            autoCreateUser="no"
-            <% unless port.nil? %>
-            port="<%= port %>"
+            <% unless file_service_web_port.nil? %>
+            port="<%= file_service_web_port %>"
             ssl="yes"
-            <% end %>
             requireAuthentication="no"
             exportDirectory=""
-            quarantine="quarantine-directory" >
+            <% end %>
+            >
 
             <jpeg frame="first" wmax="10000" wmin="96" q="-1" />
 
-      </FileStorageService>
+        </FileStorageService>

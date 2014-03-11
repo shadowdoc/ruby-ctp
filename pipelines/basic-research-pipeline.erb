@@ -50,7 +50,7 @@ It uses a the server's standard pixel anonymizer.
             class="org.rsna.ctp.stdstages.DicomExportService"
             root="roots/<%= name %>DicomAnon/DicomExport" 
             quarantine="quarantines/<%= name %>DicomAnon/DicomExport"
-            url="dicom://<%= destination_aet %>:<%= name %>@<%=destination_ip%>:<%=destination_port%>"
+            url="dicom://<%= destination_aet %>:<%= calling_aet %>@<%=destination_ip%>:<%=destination_port%>"
             forceClose="no"
             throttle="0"
             interval="5000"
