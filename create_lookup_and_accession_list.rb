@@ -29,7 +29,9 @@ original = CSV.read(ARGV[0], :headers => true)
 original.each do |row|
 	# There is an issue with DORIS exports where the MRN is treated as a number rather than a string
 	# This leads to truncation of numbers that start with 0.  MRN should be an 8 character string
-	patients << row['mrn'].to_s.rjust(8,"0")
+	row['mrn']  = row['mrn'].to_s.rjust(8,"0")
+
+	patients << row['mrn']
 	accessions << row['acc']
 end
 
@@ -64,7 +66,7 @@ accessions.each_with_index do |a,i|
 end
 
 # Rewrite the CSV file including the new info
-CSV.open(filename[0] + "-updated." + filename[1], 'w') do |csv_out|
+CSV.open(filename[0] + "-with-deidentification-key." + filename[1], 'w') do |csv_out|
 
 	# add the headers to our new csv file
 	csv_out << original.headers + ['study_id', 'study_accession']
@@ -79,7 +81,7 @@ end
 # Write the lookup properties and accessions files
 
 File.open("#{irb}-lookup.properties", 'w') do |f|
-	File.open("#{irb}-accessions", 'w') do |c|
+	File.open("#{irb}-accessions.csv", 'w') do |c|
 
 		f.puts("# IRB: #{irb}")
 		f.puts("# PI: #{primary_investigator}")
