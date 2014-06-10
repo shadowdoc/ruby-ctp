@@ -9,9 +9,9 @@ require 'digest/md5'
 
 DEBUG = true
 
-irb = 1307011922
-primary_investigator = "Dr. Dalsing - Vascular Surgery"
-contact = "Adam Gracon <agracon@iupui.edu>"
+irb = 'xxxxxxxxx'
+primary_investigator = "XXXXXXXXXXX"
+contact = "XXXXXXXXXXXXXX"
 salt = SecureRandom.base64
 random_patient_id = true
 random_accession_id = true
