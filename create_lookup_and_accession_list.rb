@@ -29,8 +29,8 @@ def create_random_list(l)
 	# This creates a random list of numbers of lenght l
 	# The numbers range from 100-10000
 
-	random_limit = 10000
-	a = (100...random_limit).sort_by{rand}
+	random_limit = 1000
+	a = (1...random_limit).sort_by{rand}
 	a[0..l]
 end
 
@@ -53,7 +53,7 @@ accessions.uniq!
 # This is a safety thing based on the way that the random numbers are assigned.
 # This could obviosly be fixed if needed.
 
-if patients.length > 10000 || accessions.length > 10000
+if patients.length > 1000 || accessions.length > 1000
 	raise "ERROR: Can't work with patient or accession lists larger than 10000"
 end
 
@@ -85,7 +85,7 @@ patients.each_with_index do |p,i|
 
 	puts "Old ID: #{p}, New ID: #{new_id_list[i]}" if DEBUG
 
-	new_patients[p] = "#{irb}-#{new_id_list[i].to_s.rjust(5,"0")}"
+	new_patients[p] = "#{irb}-#{new_id_list[i].to_s.rjust(4,"0")}"
 
 end
 
@@ -114,7 +114,7 @@ accessions.each_with_index do |a,i|
 	# This creates a hash with the new accession numbers
 	# the old accession number is stored as the key, and the new as the value
 
-	new_accessions[a] = "#{irb}-#{new_id_list[i].to_s.rjust(5,"0")}" 
+	new_accessions[a] = "#{irb}-#{new_id_list[i].to_s.rjust(4, "0")}" 
 
 
 	raise "ERROR: Accession Number too long for DICOM standard" if new_accessions[a].length > 16
