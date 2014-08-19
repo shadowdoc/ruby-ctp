@@ -4,7 +4,7 @@ RSNA CTP File Storage template
 
 
 Ruby Variables: 
-name - this is the root of the pipeline name
+@name - this is the root of the pipeline name
 file_service_root - local directory where the files are to be written
 
 file_service_web_port - if a port is specified, the CTP server will 
@@ -15,10 +15,10 @@ http://mircwiki.rsna.org/index.php?title=CTP-The_RSNA_Clinical_Trial_Processor#S
 -->
 
         <FileStorageService
-            name="<%= name %> File Storage Service"
+            name="<%= @name %>FileStorageService"
             class="org.rsna.ctp.stdstages.FileStorageService"
             root="<%= file_service_root %>" 
-            quarantine="quarantines/<%=name%>DicomAnon/FileStorageService"
+            quarantine="quarantines/<%=@name%>DicomAnon/FileStorageService"
             type="month"
             timeDepth="0"
             acceptDuplicateUIDs="yes"

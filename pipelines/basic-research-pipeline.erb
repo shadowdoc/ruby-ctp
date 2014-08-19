@@ -7,50 +7,50 @@ It uses a the server's standard pixel anonymizer.
 
 %>
 
-    <Pipeline name="<%= name %>">
+    <Pipeline name="<%= @name %>">
         <ImportService
-            name="<%= name %> DicomImportService"
+            name="<%= @name %>DicomImportService"
             calledAETTag="00120010"
             class="org.rsna.ctp.stdstages.DicomImportService"
             logConnections="rejected"
-            port="<%= listening_port %>"
-            quarantine="quarantines/<%= name %>DicomAnon/DicomImportService"
-            root="roots/<%=name %>DicomAnon/DicomImportService"
+            port="<%= @listening_port %>"
+            quarantine="quarantines/<%= @name %>DicomAnon/DicomImportService"
+            root="roots/<%=@name %>DicomAnon/DicomImportService"
             />	
         <Processor
-            name="<%= name %> DICOM Filter"
+            name="<%= @name %> DICOM Filter"
             class="org.rsna.ctp.stdstages.DicomFilter"
-            root="roots/<%= name %>DicomAnon/DicomFilter"
-            script="scripts/<%= name %>-dicom-filter.script"
+            root="roots/<%= @name %>DicomAnon/DicomFilter"
+            script="scripts/<%= @name %>-dicom-filter.script"
             />
         <Decompressor
-            name="<%= name %> Decompressor"
+            name="<%= @name %> Decompressor"
             class="org.rsna.ctp.stdstages.DicomDecompressor"
-            root="roots/<%= name %>DicomAnon/Decompressor"
+            root="roots/<%= @name %>DicomAnon/Decompressor"
             script="scripts/dicom-decompressor.script"
-            quarantine="quarantines/<%= name %>DicomAnon/Decompressor"
+            quarantine="quarantines/<%= @name %>DicomAnon/Decompressor"
             />
         <DicomPixelAnonymizer
-            name="<%= name %> MIRC Dicom Pixel Anonymizer"
+            name="<%= @name %> Dicom Pixel Anonymizer"
             class="org.rsna.ctp.stdstages.DicomPixelAnonymizer"
-            root="roots/<%= name %>DicomAnon/DicomPixelAnonymizer"
-            quarantine="quarantines/<%= name %>DicomAnon/DicomPixelAnonymizer"
+            root="roots/<%= @name %>DicomAnon/DicomPixelAnonymizer"
+            quarantine="quarantines/<%= @name %>DicomAnon/DicomPixelAnonymizer"
             script="scripts/dicom-pixel-anonymizer.script"
             />
         <Anonymizer
-            name="<%= name %> DICOM Anon DicomAnonymizer"
+            name="<%= @name %> DicomAnonymizer"
             class="org.rsna.ctp.stdstages.DicomAnonymizer"
-            lookupTable="scripts/<%= name %>-lookup-table.properties"
-            quarantine="quarantines/<%= name %>DicomAnon/DicomAnonymizer"
-            root="roots/<%= name %>DicomAnon/DicomAnonymizer"
-            script="scripts/<%= name %>-Anonymizer.script"
+            lookupTable="scripts/<%= @name %>-lookup-table.properties"
+            quarantine="quarantines/<%= @name %>DicomAnon/DicomAnonymizer"
+            root="roots/<%= @name %>DicomAnon/DicomAnonymizer"
+            script="scripts/<%= @name %>-anonymizer.script"
             />
         <ExportService
-            name="<%=name %> DICOM Export"
+            name="<%=@name %> DICOM Export"
             class="org.rsna.ctp.stdstages.DicomExportService"
-            root="roots/<%= name %>DicomAnon/DicomExport" 
-            quarantine="quarantines/<%= name %>DicomAnon/DicomExport"
-            url="dicom://<%= destination_aet %>:<%= calling_aet %>@<%=destination_ip%>:<%=destination_port%>"
+            root="roots/<%= @name %>DicomAnon/DicomExport" 
+            quarantine="quarantines/<%= @name %>DicomAnon/DicomExport"
+            url="dicom://<%= @destination_aet %>:<%= @calling_aet %>@<%= @destination_ip %>:<%= @destination_port %>"
             forceClose="no"
             throttle="0"
             interval="5000"

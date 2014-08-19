@@ -1,40 +1,59 @@
-# mirc_processor.rb
+# create-pipeline-xml.rb
 # Mirc pipeline processor
 # This script aids in writing pipeline confirguration xml for the RSNA Clinical Trials processor
 # Set the variables here in this script and then run it!
 require 'erb'
 
-if ARGV.length != 0 && File.exists?(ARGV[0])
-	template_file = ARGV[0]
-else
-	raise "Must supply a valid .erb file as an argument"
+ROOT_BASE = "roots/"
+
+@name = "cachexia"
+
+def render_template(t)
+	# This method takes a template file as an argument and puts the output to the console
+
+	b = binding
+	template = ERB.new(File.read(File.join(Dir.pwd, t)))
+
+	output = template.result(b).gsub /^$\n/, ''
+	puts output
 end
 
-root_base = "roots/"
+def pipeline
+	@calling_aet = "IUSM_CACHEXIA"
+	@listening_port = 1086
+	@listening_ip = "134.68.158.28"
 
-b = binding
-name = "research"
-calling_aet = "sswrist"
-listening_port = 1085
-listening_ip = "134.68.158.28"
+	# destination_aet = "FRESHAIR"
+	# destination_ip = "134.68.161.109"
+	# destination_port = 4096
 
-# destination_aet = "FRESHAIR"
-# destination_ip = "134.68.161.109"
-# destination_port = 4096
+	@destination_aet = "CHSYNRSRCHSCP"
+	@destination_ip = "10.8.224.44"
+	@destination_port = 104
+	render_template('pipelines/basic-research-pipeline.erb')
+end
 
-destination_aet = "CHSYNRSRCHSCP"
-destination_ip = "10.8.224.44"
-destination_port = 104
+def file_storage_service
+	###################
+	# File Storage Service config
+	###################
 
+	file_service_root = File.join(ROOT_BASE, @name + "DicomAnon", "FileStorageService")
+	file_service_web_port = nil
 
-###################
-# File Storage Service config
-###################
+	render_template('stages/file_storage_service.erb')
 
-file_service_root = File.join(root_base, name + "DicomAnon", "FileStorageService")
-file_service_web_port = nil
+end
 
-template = ERB.new(File.read(template_file))
+def directory_storage_service
 
-output = template.result(b).gsub /^$\n/, ''
-puts output
+	@directory_service_root = File.join(ROOT_BASE, @name + "DicomAnon", "DirectoryStorageService")
+	@structure = "(0010,0020) - (0010,0030)/[00080020]"
+
+	render_template('stages/directory_storage_service.erb')
+
+end
+
+pipeline
+directory_storage_service
+
